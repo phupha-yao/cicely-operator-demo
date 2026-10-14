@@ -1,0 +1,8 @@
+# Never upload local credentials; Vercel supplies env at build and runtime.
+.env
+.env.*
+!.env.example
+node_modules
+.vercel/output
+supabase/.temp
+test-results

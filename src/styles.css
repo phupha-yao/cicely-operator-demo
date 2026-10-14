@@ -1,0 +1,222 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Cicely operator dashboard — design tokens.
+ *
+ * Brand (from the Cicely doc kit): ink #1F1F1F on cream #FFFBEC, never pure
+ * black or white; PP Mori Semibold headings, Inclusive Sans body; flat colour,
+ * no shadows; the segmented colour underline is the one decoration.
+ *
+ * Two colour families, kept apart on purpose:
+ *  - Brand tints (mint, dandelion, …) are light. They are only ever fills with
+ *    ink text on them — pills, chips, badges.
+ *  - Data shades are darker versions of the same hues, for chart marks. Each
+ *    clears 3:1 against cream (WCAG 1.4.11); text colours clear 4.5:1.
+ */
+
+@font-face {
+  font-family: "PP Mori";
+  src: url("/fonts/PPMori-Semibold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 14px;
+
+  --font-sans: "Inclusive Sans", system-ui, -apple-system, sans-serif;
+  /* PP Mori is self-hosted and may be absent (licence); Inclusive Sans 600 stands in. */
+  --font-display: "PP Mori", "Inclusive Sans", system-ui, sans-serif;
+
+  /* App palette */
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-mint: var(--mint);
+  --color-orange: var(--orange);
+  --color-dandelion: var(--dandelion);
+  --color-bubblegum: var(--bubblegum);
+  --color-malibu: var(--malibu);
+  --color-sky: var(--sky);
+  --color-fall: var(--fall);
+
+  /* shadcn/ui tokens, pointed at the brand */
+  --color-background: var(--canvas);
+  --color-foreground: var(--ink);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--ink);
+  --color-primary-foreground: var(--canvas);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--ink);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--ink-soft);
+  --color-accent: var(--surface-2);
+  --color-accent-foreground: var(--ink);
+  --color-destructive: var(--data-disruption);
+  --color-destructive-foreground: var(--canvas);
+  --color-border: var(--line);
+  --color-input: var(--line-strong);
+  --color-ring: var(--malibu);
+  --color-ring-offset-background: var(--canvas);
+  --color-chart-1: var(--data-reports);
+  --color-chart-2: var(--data-rain);
+  --color-chart-3: var(--data-temp);
+  --color-chart-4: var(--data-works);
+  --color-chart-5: var(--data-disruption);
+  --color-sidebar: var(--surface);
+  --color-sidebar-foreground: var(--ink);
+  --color-sidebar-primary: var(--ink);
+  --color-sidebar-primary-foreground: var(--canvas);
+  --color-sidebar-accent: var(--surface-2);
+  --color-sidebar-accent-foreground: var(--ink);
+  --color-sidebar-border: var(--line);
+  --color-sidebar-ring: var(--malibu);
+}
+
+:root {
+  --radius: 10px;
+
+  /* Surfaces and ink */
+  --canvas: #fffbec;
+  --surface: #fffdf6;
+  --surface-2: #f6f0dc;
+  --ink: #1f1f1f;
+  /* Secondary text: ink at ~70%, 5:1 on cream. Use ink/70 or stronger for text. */
+  --ink-soft: #6a6966;
+  --line: rgb(31 31 31 / 0.12);
+  --line-strong: rgb(31 31 31 / 0.22);
+
+  /* Brand tints — fills with ink text only */
+  --mint: #d9e97f;
+  --orange: #fe8d54;
+  --dandelion: #ffe96a;
+  --bubblegum: #ffc0c0;
+  --malibu: #ff7199;
+  --sky: #89d8ff;
+  --fall: #b4b94d;
+  --tint-orange: #ffd9c2;
+
+  /* Data shades — chart marks, ≥3:1 on cream */
+  --data-reports: #c9531f;
+  --data-rain: #1f7db0;
+  --data-temp: #666b22;
+  --data-footfall: #8f8d88;
+  --data-ontime: #1f1f1f;
+  --data-disruption: #c93a62;
+  --data-works: #8a7600;
+
+  /* Answer tones */
+  --data-ok: var(--mint);
+  --data-warn: var(--dandelion);
+  --data-blocked: var(--data-reports);
+  --data-none: rgb(31 31 31 / 0.25);
+  --data-alert-ink: #a8361a;
+  --cicely-green: #4f5a12;
+
+  /* Neutral ramp for tracks, empty cells and inactive marks */
+  --grey-0: #f3edd8;
+  --grey-1: #e3dcc5;
+  --grey-2: #8f8d88;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--malibu);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@utility skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--canvas);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  &:focus {
+    left: 12px;
+    top: 12px;
+  }
+}
+
+/* The brand's segmented underline, used once: the strip across the app bar. */
+@utility brand-strip {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--mint) 0 14.28%,
+    var(--sky) 14.28% 28.57%,
+    var(--dandelion) 28.57% 42.85%,
+    var(--bubblegum) 42.85% 57.14%,
+    var(--orange) 57.14% 71.42%,
+    var(--malibu) 71.42% 85.71%,
+    var(--fall) 85.71% 100%
+  );
+}
+
+.admin-ui {
+  background-color: var(--canvas);
+  color: var(--ink);
+}
+
+/* Heatmap: cream → orange tint → orange data shade. Hatching = too few answers. */
+.heat-thin {
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 3px,
+    rgb(31 31 31 / 0.18) 3px 4px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
